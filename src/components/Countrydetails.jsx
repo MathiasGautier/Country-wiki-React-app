@@ -1,43 +1,59 @@
 import React, { useState, useEffect } from "react";
+import oneCountry from "../utils/oneCountry";
 
-function Countrydetails(props) {
-  console.log(props.countryInfos);
+const Countrydetails = (props) => {
+  const [infos, setInfos] = useState([]);
+  const [otherCountries, setOther] = useState([]);
+
+  useEffect(() => {
+    setInfos(props.countryInfos);
+  }, [props.countryInfos]);
+  useEffect(() => {
+    if (infos.name) {
+      setOther(
+        infos.name &&
+          infos.borders.map((i) => oneCountry(props.allCountries, i))
+      );
+    }
+  }, [props.allCountries, infos.name, infos.borders]);
+
+  const handleClick = (i) => (e) => {
+    setInfos(i);
+  };
 
   return (
-    <div>
-      {props.countryInfos.name && (
+    <div className="col-12 secondary">
+      {infos.name && (
         <>
           <img
-            src={`https://www.countryflags.io/${props.countryInfos.cca2}/flat/64.png`}
+            src={`https://www.countryflags.io/${infos.cca2}/flat/64.png`}
             alt="flag"
           />
-          <div>
-            <h1>{props.countryInfos.name.common}</h1>
-          </div>
-          <div>
+
+          <h2>{infos.name.common}</h2>
+
+          <div className="box">
             <h2>Capital</h2>
-            <p>{props.countryInfos.capital}</p>
+            <p>{infos.capital}</p>
           </div>
-          <div>
+
+          <div className="box">
             <h2>Area</h2>
-            <p>{props.countryInfos.area} km<sup>2</sup></p>
+            <p>
+              {infos.area} km<sup>2</sup>
+            </p>
           </div>
+
           <div>
             <h2>Borders</h2>
-            <p>
-              {props.other.map((i) =>
-                i.map((i) => (
-                  <ul>
-                    <li> {i.name.common}</li>
-                  </ul>
-                ))
-              )}
-            </p>
+            {otherCountries.map((i) =>
+              i.map((i) => <div onClick={handleClick(i)}> {i.name.common}</div>)
+            )}
           </div>
         </>
       )}
     </div>
   );
-}
+};
 
 export default Countrydetails;

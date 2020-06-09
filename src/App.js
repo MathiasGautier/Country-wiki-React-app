@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 
 import Countrieslist from './components/Countrieslist';
 
 function App() {
 
+
+
   return (
-    <div className="App">
+    
+    <>
+    <p>
+      <div className="container-fluid header">
+      <div className="col-12">
+        <h1 >Country wiki</h1>
+        <p >Select a country to learn more about it !</p>
+        </div>
+  </div>
+    </p>
     <Countrieslist />
-    </div>
+
+    
+</>
   );
 }
 
